@@ -1,16 +1,46 @@
-# Example content for component-config.yaml
+# .choreo/component-config.yaml
+
 component:
-  name: my-component
+  name: springboot-app
   type: service
   version: 1.0.0
   settings:
     environment:
+      - name: SPRING_PROFILES_ACTIVE
+        value: prod
       - name: JAVA_OPTS
-        value: "-Xmx512m"
+        value: "-Xmx1024m -Xms512m"
     dependencies:
-      - name: my-dependency
-        version: 2.0.0
+      - name: oracle-database
+        version: 8.0
   runtime:
-    image: my-component-image:latest
+    image: my-springboot-app-image:latest
     ports:
       - containerPort: 8080
+      - name: http
+        port: 8080
+    command: ["java", "-jar", "/app/my-springboot-app.jar"]
+    volumeMounts:
+      - name: config-volume
+        mountPath: /config
+        readOnly: true
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+  health:
+    livenessProbe:
+      httpGet:
+        path: /actuator/health
+        port: 8080
+      initialDelaySeconds: 60
+      timeoutSeconds: 5
+    readinessProbe:
+      httpGet:
+        path: /actuator/health
+        port: 8080
+      initialDelaySeconds: 30
+      timeoutSeconds: 5

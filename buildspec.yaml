@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      java: corretto11  # Specify the Java version (Corretto 11 is an example)
+      java: corretto17  # Specify the Java version (Corretto 11 is an example)
     commands:
       - echo Installing Maven
       - yum install -y maven  # Install Maven if it's not pre-installed
