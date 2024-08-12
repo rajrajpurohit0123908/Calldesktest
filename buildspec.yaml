@@ -1,0 +1,41 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto11  # Specify the Java version (Corretto 11 is an example)
+    commands:
+      - echo Installing Maven
+      - yum install -y maven  # Install Maven if it's not pre-installed
+      - mvn --version  # Verify Maven installation
+
+  pre_build:
+    commands:
+      - echo Starting pre-build phase
+      - echo Setting up environment variables
+      - export MAVEN_OPTS="-Xmx1024m"  # Example: Set JVM options for Maven
+      - echo MAVEN_OPTS is set to $MAVEN_OPTS
+
+  build:
+    commands:
+      - echo Starting build phase
+      - mvn clean install  # Clean and build the project using Maven
+      - mvn package  # Package the application into a JAR or WAR file
+
+  post_build:
+    commands:
+      - echo Starting post-build phase
+      - echo Build completed successfully
+      - ls -l target/  # List files in the target directory
+      - mv target/*.jar /output/  # Move the JAR file to the output directory
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: target  # Directory where the build output is located
+  discard-paths: yes
+  name: calldeskapp
+
+cache:
+  paths:
+    - '/root/.m2/**/*'  # Cache Maven dependencies to speed up builds
