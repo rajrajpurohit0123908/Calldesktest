@@ -1,0 +1,16 @@
+# Example content for component-config.yaml
+component:
+  name: my-component
+  type: service
+  version: 1.0.0
+  settings:
+    environment:
+      - name: JAVA_OPTS
+        value: "-Xmx512m"
+    dependencies:
+      - name: my-dependency
+        version: 2.0.0
+  runtime:
+    image: my-component-image:latest
+    ports:
+      - containerPort: 8080
