@@ -3,6 +3,19 @@
 component:
   name: springboot-app
   type: service
+  endpoints:
+      - name: Calldeskupdate
+        url: https://api.example.com/calldeskupdate
+        method: POST
+        headers:
+          Content-Type: application/json
+        body:
+          {
+            "username": [],
+           
+          }
+        timeout: 30s
+
   version: 1.0.0
   settings:
     environment:
