@@ -1,59 +1,10 @@
-# .choreo/component-config.yaml
-
-component:
-  name: springboot-app
-  type: service
-  endpoints:
-      - name: Calldeskupdate
-        url: https://api.example.com/calldeskupdate
-        method: POST
-        headers:
-          Content-Type: application/json
-        body:
-          {
-            "username": [],
-           
-          }
-        timeout: 30s
-
-  version: 1.0.0
-  settings:
-    environment:
-      - name: SPRING_PROFILES_ACTIVE
-        value: prod
-      - name: JAVA_OPTS
-        value: "-Xmx1024m -Xms512m"
-    dependencies:
-      - name: oracle-database
-        version: 8.0
-  runtime:
-    image: my-springboot-app-image:latest
-    ports:
-      - containerPort: 8080
-      - name: http
-        port: 8080
-    command: ["java", "-jar", "/app/my-springboot-app.jar"]
-    volumeMounts:
-      - name: config-volume
-        mountPath: /config
-        readOnly: true
-  resources:
-    requests:
-      cpu: 500m
-      memory: 1Gi
-    limits:
-      cpu: 1000m
-      memory: 2Gi
-  health:
-    livenessProbe:
-      httpGet:
-        path: /actuator/health
-        port: 8080
-      initialDelaySeconds: 60
-      timeoutSeconds: 5
-    readinessProbe:
-      httpGet:
-        path: /actuator/health
-        port: 8080
-      initialDelaySeconds: 30
-      timeoutSeconds: 5
+apiVersion: core.choreo.dev/v1beta1
+kind: ComponentConfig
+spec:
+  inbound:
+    - name: todolist-service
+      port: 8080
+      type: REST
+      networkVisibility: Public
+      context: /todolist
+      schemaFilePath: openapi.yaml
