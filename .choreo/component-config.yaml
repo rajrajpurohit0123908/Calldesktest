@@ -7,4 +7,4 @@ spec:
       type: REST
       networkVisibility: Public
       context: /todolist
-      schemaFilePath: openapi.yaml
+      schemaFilePath: buildspec.yaml
