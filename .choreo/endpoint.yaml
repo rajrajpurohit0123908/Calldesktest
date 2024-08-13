@@ -1,0 +1,15 @@
+endpoints:
+  - name: CalldeskUpdate
+    type: http
+    url: https://CalldeskStatus.com/rajveer
+    method: POST
+    headers:
+      Content-Type: application/json
+    queryParameters:
+      param1: value1
+    body:
+      {
+        "key1": "value1",
+        "key2": "value2"
+      }
+    timeout: 30s
